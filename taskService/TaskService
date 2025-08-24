@@ -1,0 +1,58 @@
+// Name: Mitchell Gossman
+// Date: 08/10/2025
+// Description: This program is the TaskService Class that performs actions for Tasks
+
+package taskService;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class TaskService {
+
+	// Store tasks with taskId as the key
+    private Map<String, Task> taskMap;
+    
+ // Constructor
+    public TaskService() {
+        taskMap = new HashMap<>();
+    }
+	
+ // Add a new task
+    public void addTask(Task task) {
+    	
+        String taskId = task.getTaskId();
+        
+        if (taskMap.containsKey(taskId)) {
+            throw new IllegalArgumentException("Task with ID '" + taskId + "' already exists.");
+        }
+        
+        taskMap.put(taskId, task);
+    }
+	
+ // Delete task by ID
+    public void deleteTask(String taskId) {
+    	
+        if (!taskMap.containsKey(taskId)) {
+            throw new IllegalArgumentException("Task with ID '" + taskId + "' does not exist.");
+        }
+        
+        taskMap.remove(taskId);
+    }
+	
+    // Update task's name and description by ID
+    public void updateTask(String taskId, String newName, String newDescription) {
+        Task task = taskMap.get(taskId);
+        if (task == null) {
+            throw new IllegalArgumentException("Task with ID '" + taskId + "' does not exist.");
+        }
+        
+        // Validations are handled inside Task class
+        task.setName(newName);           
+        task.setDescription(newDescription);
+    }
+    
+    // Get a task (for testing or retrieval)
+    public Task getTask(String taskId) {
+        return taskMap.get(taskId);
+    }
+}
