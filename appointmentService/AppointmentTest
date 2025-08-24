@@ -1,0 +1,85 @@
+//Author Name: Mitchell Gossman
+//Date: 8/10/25
+//Course ID: 15986-M01 Software Test, Automation
+//Description: This JUnit tests the appointment class
+
+package appointmentService;
+
+import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
+import java.util.Calendar;
+import java.util.Date;
+
+import org.junit.jupiter.api.BeforeEach;
+
+class AppointmentTest {
+
+	private Date futureDate;
+
+    @BeforeEach
+    // Set up for each appointment
+    void setUp() {
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DAY_OF_YEAR, 1); // 1 day in the future
+        futureDate = cal.getTime();
+    }
+
+    @Test
+    // Test if the appointment is valid
+    void testValidAppointment() {
+        Appointment appt = new Appointment("12345", futureDate, "Doctor Visit");
+        assertEquals("12345", appt.getAppointmentId());
+        assertEquals(futureDate, appt.getAppointmentDate());
+        assertEquals("Doctor Visit", appt.getDescription());
+    }
+
+    @Test
+    // Test if the appointment is invalid
+    void testInvalidId() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            new Appointment(null, futureDate, "Checkup");
+        });
+        assertThrows(IllegalArgumentException.class, () -> {
+            new Appointment("12345678901", futureDate, "Checkup");
+        });
+    }
+
+    @Test
+    // Test if date is invalid
+    void testInvalidDate() {
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DAY_OF_YEAR, -1); // yesterday
+        Date pastDate = cal.getTime();
+        assertThrows(IllegalArgumentException.class, () -> {
+            new Appointment("123", pastDate, "Checkup");
+        });
+    }
+
+    @Test
+    // Test if description is valid
+    void testInvalidDescription() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            new Appointment("123", futureDate, null);
+        });
+        assertThrows(IllegalArgumentException.class, () -> {
+            new Appointment("123", futureDate, "x".repeat(51));
+        });
+    }
+
+    @Test
+    // Test updating date and the description
+    void testUpdateDateAndDescription() {
+        Appointment appt = new Appointment("123", futureDate, "Dentist Visit");
+
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DAY_OF_YEAR, 2);
+        Date newDate = cal.getTime();
+
+        appt.setAppointmentDate(newDate);
+        appt.setDescription("Eye Exam");
+
+        assertEquals(newDate, appt.getAppointmentDate());
+        assertEquals("Eye Exam", appt.getDescription());
+    }
+
+}
