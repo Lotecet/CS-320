@@ -1,0 +1,80 @@
+//Author Name: Mitchell Gossman
+//Date: 8/10/25
+//Course ID: 15986-M01 Software Test, Automation
+//Description: This is a Junit test case for the Contact class
+
+package contactService;
+
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.DisplayName;
+import static org.junit.jupiter.api.Assertions.*;
+
+public class ContactTest {
+
+	// Length Constraint Tests
+
+    @Test
+    @DisplayName("Contact ID cannot have more than 10 characters")
+    void testContactIDWithMoreThanTenCharacters() {
+        Contact contact = new Contact("FirstName", "LastName", "1234567890", "Address");
+        assertTrue(contact.getContactID().length() <= 10, "Contact ID has more than 10 characters.");
+    }
+
+    @Test
+    @DisplayName("First Name cannot exceed 10 characters")
+    void testContactFirstNameWithMoreThanTenCharacters() {
+        Contact contact = new Contact("OllyOllyOxenFree", "LastName", "1234567890", "Address");
+        assertTrue(contact.getFirstName().length() <= 10, "First Name has more than 10 characters.");
+    }
+
+    @Test
+    @DisplayName("Last Name cannot exceed 10 characters")
+    void testContactLastNameWithMoreThanTenCharacters() {
+        Contact contact = new Contact("FirstName", "Supercalifragil", "1234567890", "Address");
+        assertTrue(contact.getLastName().length() <= 10, "Last Name has more than 10 characters.");
+    }
+
+    @Test
+    @DisplayName("Phone Number must be exactly 10 characters")
+    void testContactPhoneNumberMustBeTenCharacters() {
+        Contact contact = new Contact("FirstName", "LastName", "123456789012345", "Address");
+        assertEquals(10, contact.getNumber().length(), "Phone number is not 10 characters.");
+    }
+
+    @Test
+    @DisplayName("Address cannot exceed 30 characters")
+    void testContactAddressWithMoreThanThirtyCharacters() {
+        Contact contact = new Contact("FirstName", "LastName", "1234567890", "123 This Address Is Way Too Long To Fit");
+        assertTrue(contact.getAddress().length() <= 30, "Address has more than 30 characters.");
+    }
+
+    // Null Value Tests
+
+    @Test
+    @DisplayName("First Name cannot be null")
+    void testFirstNameCannotBeNull() {
+        Contact contact = new Contact(null, "LastName", "1234567890", "Address");
+        assertNotNull(contact.getFirstName(), "First Name is null.");
+    }
+
+    @Test
+    @DisplayName("Last Name cannot be null")
+    void testLastNameCannotBeNull() {
+        Contact contact = new Contact("FirstName", null, "1234567890", "Address");
+        assertNotNull(contact.getLastName(), "Last Name is null.");
+    }
+
+    @Test
+    @DisplayName("Phone Number cannot be null")
+    void testPhoneNumberCannotBeNull() {
+        Contact contact = new Contact("FirstName", "LastName", null, "Address");
+        assertNotNull(contact.getNumber(), "Phone number is null.");
+    }
+
+    @Test
+    @DisplayName("Address cannot be null")
+    void testAddressCannotBeNull() {
+        Contact contact = new Contact("FirstName", "LastName", "1234567890", null);
+        assertNotNull(contact.getAddress(), "Address is null.");
+    }
+}
