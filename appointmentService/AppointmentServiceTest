@@ -1,0 +1,64 @@
+//Author Name: Mitchell Gossman
+//Date: 8/10/25
+//Course ID: 15986-M01 Software Test, Automation
+//Description: This Junit tests the appointmentservice class
+
+package appointmentService;
+
+import static org.junit.jupiter.api.Assertions.*;
+import java.util.Calendar;
+import java.util.Date;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+class AppointmentServiceTest {
+
+	private AppointmentService service;
+    private Date futureDate;
+
+    @BeforeEach
+    // Sets up the service
+    void setUp() {
+        service = new AppointmentService();
+
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DAY_OF_YEAR, 1);
+        futureDate = cal.getTime();
+    }
+
+    @Test
+    // Test adding the appointment
+    void testAddAppointment() {
+        Appointment appt = new Appointment("111", futureDate, "Meeting");
+        service.addAppointment(appt);
+        assertEquals(appt, service.getAppointment("111"));
+    }
+
+    @Test
+    // Test adding the same appointment
+    void testAddDuplicateAppointment() {
+        Appointment appt1 = new Appointment("111", futureDate, "Meeting");
+        service.addAppointment(appt1);
+
+        Appointment appt2 = new Appointment("111", futureDate, "Another Meeting");
+        assertThrows(IllegalArgumentException.class, () -> service.addAppointment(appt2));
+    }
+
+    @Test
+    // Test Deleting the appointment
+    void testDeleteAppointment() {
+        Appointment appt = new Appointment("222", futureDate, "Interview");
+        service.addAppointment(appt);
+
+        service.deleteAppointment("222");
+        assertNull(service.getAppointment("222"));
+    }
+
+    @Test
+    // Test deleting the appointment if the appointment doesn't exist
+    void testDeleteNonExistentAppointment() {
+        assertThrows(IllegalArgumentException.class, () -> service.deleteAppointment("999"));
+    }
+
+}
