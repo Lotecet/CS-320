@@ -1,0 +1,105 @@
+//Author Name: Mitchell Gossman
+//Date: 08/10/25
+//Course ID: 15986-M01 Software Test, Automation
+//Description: This is a Junit test cases for the ContactService Class
+
+package contactService;
+
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.DisplayName;
+import static org.junit.jupiter.api.Assertions.*;
+
+
+public class ContactServiceTest {
+
+	@Test
+	@DisplayName("Test Updating First Name")
+	// Test the First Name
+	 void testUpdateFirstName() {
+	       
+	        ContactService service = new ContactService();
+	        
+	        Contact contact = service.addContact("Dr.", "Cross", "5555551111", "123 Lollypop Lane");
+
+	        String contactID = contact.getContactID();
+	        service.updateFirstName(contactID, "Sven");
+	        // service.displayContactList();
+	        assertEquals("Sven", service.getContact(contactID).getFirstName(), "First name was not updated.");
+	    }
+
+	 	@Test
+	    @DisplayName("Test Updating Last Name")
+	    // Test to Update Last Name
+	    void testUpdateLastName() {
+	        ContactService service = new ContactService();
+	        service.addContact("Anna", "Smith", "5551234567", "456 Gumdrop Rd");
+
+	        // Get the actual contact ID
+	        String contactID = service.getContact("0").getContactID();
+	        service.updateLastName(contactID, "Jones");
+	        
+	        // service.displayContactList();
+	        assertEquals("Jones", service.getContact(contactID).getLastName(), "Last name was not updated.");
+	    }
+
+	 	 @Test
+	     @DisplayName("Test Updating Phone Number")
+	    // Test to Update Phone Number
+	    void testUpdatePhoneNumber() {
+	        ContactService service = new ContactService();
+	        Contact contact = service.addContact("Tom", "Hanks", "1234567890", "789 Candy Ave");
+
+	        String contactID = contact.getContactID(); // safely retrieve the actual ID
+	        service.updateNumber(contactID, "9999999999");
+	        // service.displayContactList();
+	        assertEquals("9999999999", service.getContact(contactID).getNumber(), "Phone number was not updated.");
+	    }
+	    
+	 	@Test
+	    @DisplayName("Test Updating Address")
+	    // Test to Update Address	    
+	    void testUpdateAddress() {
+	        ContactService service = new ContactService();
+	        Contact contact = service.addContact("Jane", "Doe", "1112223333", "100 Old Street");
+	        //service.addContact("Jane", "Doe", "1112223333", "100 Old Street");
+	        
+	        // Safely get the contact ID
+	        //Contact contact = service.getContact("0");
+	        String contactID = contact.getContactID();
+	        
+	        service.updateAddress(contactID, "200 New Street");
+	        // service.displayContactList();
+	        assertEquals("200 New Street", service.getContact(contactID).getAddress(), "Address was not updated.");
+	    }
+
+	 	 @Test
+	     @DisplayName("Test Deleting a Contact")
+	    // Test to Delete Contact
+	    void testDeleteContact() {
+	        ContactService service = new ContactService();
+	        service.addContact("Jake", "Peralta", "8005551234", "99 Brooklyn");
+	        service.deleteContact("4");
+	        // service.displayContactList();
+	        assertNull(service.getContact("4"), "Contact was not deleted.");
+	    }
+	 	 
+	 	@Test
+	    @DisplayName("Test Adding Multiple Contacts")
+	    // Test to Add Multiple Contacts
+	    void testAddMultipleContacts() {
+	 		 ContactService service = new ContactService();
+
+	 	    Contact contact1 = service.addContact("John", "Doe", "1111111111", "Address 1");
+	 	    Contact contact2 = service.addContact("Jane", "Smith", "2222222222", "Address 2");
+	 	    
+	 	    String id1 = contact1.getContactID();
+	 	    String id2 = contact2.getContactID();
+	 	    
+	 	    assertNotNull(service.getContact(id1), "First contact was not added.");
+	 	    assertNotNull(service.getContact(id2), "Second contact was not added.");
+	 	    
+	        // service.displayContactList();
+	        assertNotNull(service.getContact(id1));
+	        assertNotNull(service.getContact(id2));
+	    }
+}
