@@ -1,0 +1,102 @@
+//Author Name: Mitchell Gossman
+//Date: 08/10/25
+//Course ID: 15986-M01 Software Test, Automation
+//Description: This performs updates to the Contact class
+
+package contactService
+;
+import java.util.ArrayList;
+
+public class ContactService {
+	// Start with an Array list of contacts
+	ArrayList<Contact> contactList = new ArrayList<Contact>();
+	
+	//Display the full list of contacts to the console to check for errors
+	public void displayContactList() {
+		for(int counter = 0; counter < contactList.size(); counter++) {
+		System.out.println("\t Contact ID: " + contactList.get(counter).getContactID());
+		System.out.println("\t First Name: " + contactList.get(counter).getFirstName());
+		System.out.println("\t Last Name: " + contactList.get(counter).getLastName());
+		System.out.println("\t Phone Number: " + contactList.get(counter).getNumber());
+		System.out.println("\t Address: " + contactList.get(counter).getAddress() + "\n");
+		}
+	}
+	
+	// Adds a new contact using the Contact constructor
+	public Contact addContact(String firstName, String lastName, String number, String address) {
+		// create a new contact
+		Contact Contact = new Contact(firstName, lastName, number, address);
+		contactList.add(Contact);
+		return Contact;
+	}
+	
+	// Getter
+	public Contact getContact(String contactID) {
+	    for (Contact contact : contactList) {
+	        if (contact.getContactID().equals(contactID)) {
+	            return contact;
+	        }
+	    }
+	    return null;
+	}
+	
+	// Deletes a contact by it's ID
+	public void deleteContact(String contactID) {
+		for (int i = 0; i < contactList.size(); i++) {
+			if (contactList.get(i).getContactID().equals(contactID)) {
+				contactList.remove(i);
+				System.out.println("Contact with ID " + contactID + " deleted.");
+				return;
+			}
+		}
+		System.out.println("Contact ID not found: " + contactID);
+	}
+	
+	// Update first name by contactID
+	public void updateFirstName(String contactID, String firstName) {
+      for (Contact contact : contactList) {
+          if (contact.getContactID().equals(contactID)) {
+              contact.setFirstName(firstName);
+              System.out.println("First name updated for contact ID: " + contactID);
+              return;
+          }
+      }
+      System.out.println("Contact ID not found: " + contactID);
+	}
+	
+   // Updates last name by contact ID
+      public void updateLastName(String contactID, String lastName) {
+          for (Contact contact : contactList) {
+              if (contact.getContactID().equals(contactID)) {
+                  contact.setLastName(lastName);
+                  System.out.println("Last name updated for contact ID: " + contactID);
+                  return;
+              }
+          }
+          System.out.println("Contact ID not found: " + contactID);
+      }
+
+      // Updates phone number by contact ID
+      public void updateNumber(String contactID, String number) {
+          for (Contact contact : contactList) {
+              if (contact.getContactID().equals(contactID)) {
+                  contact.setNumber(number);
+                  System.out.println("Phone number updated for contact ID: " + contactID);
+                  return;
+              }
+          }
+          System.out.println("Contact ID not found: " + contactID);
+      }
+
+      // Updates address by contact ID
+      public void updateAddress(String contactID, String address) {
+          for (Contact contact : contactList) {
+              if (contact.getContactID().equals(contactID)) {
+                  contact.setAddress(address);
+                  System.out.println("Address updated for contact ID: " + contactID);
+                  return;
+              }
+          }
+          System.out.println("Contact ID not found: " + contactID);
+      }
+}
