@@ -1,0 +1,61 @@
+// Name: Mitchell Gossman
+// Date: 08/10/2025
+// Description: This program is the Task Class that performs validity checks and setter/getters
+
+package taskService;
+
+public class Task {
+	 
+	private final String taskId; // immutable
+	private String name;
+	private String description;
+	
+	// Constructor
+    public Task(String taskId, String name, String description) {
+        
+    	// Validate taskId
+        if (taskId == null || taskId.length() > 10) {
+            throw new IllegalArgumentException("Invalid task ID: must not be null and max 10 characters.");
+        }
+        // Validate name
+        if (name == null || name.length() > 20) {
+            throw new IllegalArgumentException("Invalid name: must not be null and max 20 characters.");
+        }
+        // Validate description
+        if (description == null || description.length() > 50) {
+            throw new IllegalArgumentException("Invalid description: must not be null and max 50 characters.");
+        }
+
+        this.taskId = taskId;
+        this.name = name;
+        this.description = description;
+    }
+	
+     // Getters
+        public String getTaskId() {
+            return taskId;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public String getDescription() {
+            return description;
+        }
+        
+        // Setters for name and description (taskId is immutable)
+        public void setName(String name) {
+            if (name == null || name.length() > 20) {
+                throw new IllegalArgumentException("Invalid name: must not be null and max 20 characters.");
+            }
+            this.name = name;
+        }
+
+        public void setDescription(String description) {
+            if (description == null || description.length() > 50) {
+                throw new IllegalArgumentException("Invalid description: must not be null and max 50 characters.");
+            }
+            this.description = description;
+        }
+}
