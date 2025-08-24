@@ -1,0 +1,113 @@
+//Author Name: Mitchell Gossman
+//Date: 08/10/25
+//Course ID: 15986-M01 Software Test, Automation
+//Description: This verifies and adds new contacts
+
+package contactService;
+
+import java.util.concurrent.atomic.AtomicLong;
+
+public class Contact {
+
+	private final String contactID;
+	private String firstName;
+	private String lastName;
+	private String number;
+	private String address;
+	private static AtomicLong idGenerator = new AtomicLong();
+	
+	//Create a new contactID
+	public Contact(String firstName, String lastName, String number, String address) {
+		this.contactID = String.valueOf(idGenerator.getAndIncrement());
+		validateFirstName(firstName);
+		validateLastName(lastName);
+		validateNumber(number);
+		validateAddress(address);
+	}
+	
+	// Check for valid first name
+	private void validateFirstName(String firstName) {
+		if (firstName == null || firstName.trim().isEmpty()) {
+			this.firstName = "NULL";
+		}
+		else if (firstName.length() > 10) {
+			this.firstName = firstName.substring(0, 10);
+		}
+		else {
+			this.firstName = firstName;
+		}
+	}
+	// Check for valid last name
+	private void validateLastName(String lastName) {
+		if (lastName == null || lastName.trim().isEmpty()) {
+			this.lastName = "NULL";
+		}
+		else if (lastName.length() > 10) {
+			this.lastName = lastName.substring(0, 10);
+		}
+		else {
+			this.lastName = lastName;
+		}
+	}
+	// Check for valid Number
+	private void validateNumber(String number) {
+		if (number == null || number.trim().isEmpty() || number.length() != 10) {
+			this.number = "5555555555";
+		}
+		else {
+			this.number = number;
+		}
+	}
+	// Check for Valid Address
+	private void validateAddress(String address) {
+		if (address == null || address.trim().isEmpty()) {
+			this.address = "NULL";
+		}
+		else if (address.length() > 30) {
+			this .address = address.substring(0, 30);
+		}
+		else {
+			this.address = address;
+		}
+	}
+	
+	// Getters
+	
+	public String getContactID() {
+		return contactID;
+	}
+	
+	public String getFirstName() {
+		return firstName;
+	}
+	
+	public String getLastName() {
+		return lastName;
+	}
+	
+	public String getNumber() {
+		return number;
+	}
+	
+	public String getAddress() {
+		return address;
+	}
+	
+	// Setters
+	
+	public void setFirstName(String firstName) {
+	    this.firstName = firstName;
+	}
+
+	public void setLastName(String lastName) {
+	    this.lastName = lastName;
+	}
+
+	public void setNumber(String number) {
+	    this.number = number;  
+	}
+
+	public void setAddress(String address) {
+	    this.address = address; 
+	}
+}
