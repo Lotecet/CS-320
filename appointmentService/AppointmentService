@@ -1,0 +1,35 @@
+//Author Name: Mitchell Gossman
+//Date: 8/10/25
+//Course ID: 15986-M01 Software Test, Automation
+//Description: This class adds/deletes and gets appointment info based on the ID
+
+package appointmentService;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class AppointmentService {
+
+	private final Map<String, Appointment> appointments = new HashMap<>();
+
+    // Add appointment by ID
+    public void addAppointment(Appointment appointment) {
+        if (appointments.containsKey(appointment.getAppointmentId())) {
+            throw new IllegalArgumentException("Duplicate Appointment ID");
+        }
+        appointments.put(appointment.getAppointmentId(), appointment);
+    }
+
+    // Delete appointment by ID
+    public void deleteAppointment(String appointmentId) {
+        if (!appointments.containsKey(appointmentId)) {
+            throw new IllegalArgumentException("Appointment ID not found");
+        }
+        appointments.remove(appointmentId);
+    }
+
+    // Get appointment (for testing purposes)
+    public Appointment getAppointment(String appointmentId) {
+        return appointments.get(appointmentId);
+    }
+}
