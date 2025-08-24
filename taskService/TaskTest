@@ -1,0 +1,98 @@
+// Name: Mitchell Gossman
+// Date: 08/10/2025
+// Description: This program performs a J Unit test on the Task Class
+
+package taskService;
+
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+class TaskTest {
+
+	 // 1. Create a task successfully
+    @Test
+    public void testTaskCreationSuccess() {
+        Task task = new Task("12345", "Test Task", "This is a description.");
+        assertEquals("12345", task.getTaskId());
+        assertEquals("Test Task", task.getName());
+        assertEquals("This is a description.", task.getDescription());
+    }
+    
+    
+    // 2. Task ID null
+    @Test
+    public void testTaskIdNull() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            new Task(null, "Valid Name", "Valid Description");
+        });
+    }
+    
+    // 3. Task ID too long
+    @Test
+    public void testTaskIdTooLong() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            new Task("12345678901", "Valid Name", "Valid Description");
+        });
+    }
+    
+    // 4. Name is null
+    @Test
+    public void testNameNull() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            new Task("123", null, "Valid Description");
+        });
+    }
+    
+    // 5. Name too long
+    @Test
+    public void testNameTooLong() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            new Task("123", "This name is way too long for the limit", "Valid Description");
+        });
+    }
+    
+    // 6. Description is null
+    @Test
+    public void testDescriptionNull() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            new Task("123", "Valid Name", null);
+        });
+    }
+    
+    // 7. Description too long
+    @Test
+    public void testDescriptionTooLong() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            new Task("123", "Valid Name", "This description is intentionally made very long to exceed the 50 character limit imposed by the spec.");
+        });
+    }
+    
+    // 8. Set valid name and description
+    @Test
+    public void testSettersValid() {
+        Task task = new Task("123", "Initial", "Initial Desc");
+        task.setName("Updated Name");
+        task.setDescription("Updated Description");
+        assertEquals("Updated Name", task.getName());
+        assertEquals("Updated Description", task.getDescription());
+    }
+    
+    // 9. Set invalid name
+    @Test
+    public void testSetNameTooLong() {
+        Task task = new Task("123", "Name", "Desc");
+        assertThrows(IllegalArgumentException.class, () -> {
+            task.setName("This name is definitely more than 20 characters");
+        });
+    }
+    
+    // 10. Set invalid description
+    @Test
+    public void testSetDescriptionTooLong() {
+        Task task = new Task("123", "Name", "Desc");
+        assertThrows(IllegalArgumentException.class, () -> {
+            task.setDescription("This description is over 50 characters and should fail the validation check.");
+        });
+    }
+
+}
