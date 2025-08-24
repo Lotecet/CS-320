@@ -1,0 +1,98 @@
+// Name: Mitchell Gossman
+// Date: 08/10/2025
+// Description: This program performs a J Unit test on the TaskServices Class
+
+package taskService;
+
+import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+class TaskServiceTest {
+
+	 private TaskService service;
+
+	    @BeforeEach
+	    void setUp() {
+	        service = new TaskService();
+	    }
+
+	    // 1. Add a single task
+	    @Test
+	    void testAddSingleTask() {
+	        Task task = new Task("1", "Test", "Test description");
+	        service.addTask(task);
+	        assertEquals(task, service.getTask("1"));
+	    }
+
+	    // 2. Add multiple tasks
+	    @Test
+	    void testAddMultipleTasks() {
+	        Task task1 = new Task("1", "Task 1", "First task");
+	        Task task2 = new Task("2", "Task 2", "Second task");
+	        service.addTask(task1);
+	        service.addTask(task2);
+
+	        assertEquals(task1, service.getTask("1"));
+	        assertEquals(task2, service.getTask("2"));
+	    }
+
+	    // 3. Add task with duplicate ID throws error
+	    @Test
+	    void testAddDuplicateTaskIdThrowsException() {
+	        Task task1 = new Task("1", "Task 1", "First task");
+	        Task task2 = new Task("1", "Task 2", "Duplicate task");
+
+	        service.addTask(task1);
+	        assertThrows(IllegalArgumentException.class, () -> {
+	            service.addTask(task2);
+	        });
+	    }
+
+	    // 4. Add and retrieve task
+	    @Test
+	    void testGetTask() {
+	        Task task = new Task("3", "Retrieve", "Get this task");
+	        service.addTask(task);
+	        Task retrieved = service.getTask("3");
+	        assertNotNull(retrieved);
+	        assertEquals("Retrieve", retrieved.getName());
+	    }
+
+	    // 5. Update task's name and description
+	    @Test
+	    void testUpdateTask() {
+	        Task task = new Task("4", "OldName", "OldDesc");
+	        service.addTask(task);
+	        service.updateTask("4", "NewName", "NewDesc");
+
+	        Task updated = service.getTask("4");
+	        assertEquals("NewName", updated.getName());
+	        assertEquals("NewDesc", updated.getDescription());
+	    }
+
+	    // 6. Delete a task
+	    @Test
+	    void testDeleteTask() {
+	        Task task = new Task("5", "ToDelete", "Delete me");
+	        service.addTask(task);
+	        service.deleteTask("5");
+	        assertNull(service.getTask("5"));
+	    }
+
+	    // Optional: Deleting non-existent task throws error
+	    @Test
+	    void testDeleteNonexistentTaskThrowsException() {
+	        assertThrows(IllegalArgumentException.class, () -> {
+	            service.deleteTask("999");
+	        });
+	    }
+
+	    // Optional: Updating non-existent task throws error
+	    @Test
+	    void testUpdateNonexistentTaskThrowsException() {
+	        assertThrows(IllegalArgumentException.class, () -> {
+	            service.updateTask("404", "Name", "Desc");
+	        });
+	    }
+}
